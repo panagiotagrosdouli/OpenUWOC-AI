@@ -1,0 +1,11 @@
+{
+  "environment": "coastal",
+  "num_samples": 1000,
+  "min_distance_m": 1.0,
+  "max_distance_m": 50.0,
+  "min_transmit_power_w": 0.05,
+  "max_transmit_power_w": 2.0,
+  "beam_divergence_rad": 0.001,
+  "receiver_aperture_m": 0.05,
+  "seed": 42
+}
