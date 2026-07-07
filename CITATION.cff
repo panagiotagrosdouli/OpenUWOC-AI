@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use OpenUWOC-AI in your research, please cite it using this metadata."
+title: "OpenUWOC-AI: An Open Research Framework for AI-Powered Underwater Wireless Optical Communications"
+authors:
+  - family-names: "Grosdouli"
+    given-names: "Panagiota"
+repository-code: "https://github.com/panagiotagrosdouli/OpenUWOC-AI"
+license: "MIT"
+version: "0.1.0"
+date-released: "2026-07-07"
+keywords:
+  - "Underwater Wireless Optical Communications"
+  - "UWOC"
+  - "Artificial Intelligence"
+  - "Digital Twin"
+  - "Wireless Networks"
