@@ -1,5 +1,11 @@
 """Digital modulation utilities."""
 
-from openuwoc_ai.modulation.ook import demodulate_ook, modulate_ook
+from openuwoc_ai.modulation.ook import (
+    bits_to_ook,
+    demodulate_ook,
+    modulate_ook,
+    random_bits,
+    threshold_detect,
+)
 
-__all__ = ["demodulate_ook", "modulate_ook"]
+__all__ = ["bits_to_ook", "demodulate_ook", "modulate_ook", "random_bits", "threshold_detect"]

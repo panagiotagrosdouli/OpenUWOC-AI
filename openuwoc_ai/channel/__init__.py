@@ -1,16 +1,27 @@
 """UWOC channel models."""
 
-from openuwoc_ai.channel.models import ChannelState, WaterProfile, beer_lambert_gain
-from openuwoc_ai.channel.noise import NoiseConfig, add_awgn, estimate_snr_db
-from openuwoc_ai.channel.pointing import PointingErrorConfig, pointing_loss
+from openuwoc_ai.channel.models import (
+    WATER_PROFILES,
+    ChannelConfig,
+    UnderwaterOpticalChannel,
+    WaterProfile,
+    WaterType,
+    beer_lambert_gain,
+    lognormal_turbulence_gain,
+    pointing_error_gain,
+    shot_noise,
+    thermal_noise,
+)
 
 __all__ = [
-    "ChannelState",
-    "NoiseConfig",
-    "PointingErrorConfig",
+    "WATER_PROFILES",
+    "ChannelConfig",
+    "UnderwaterOpticalChannel",
     "WaterProfile",
-    "add_awgn",
+    "WaterType",
     "beer_lambert_gain",
-    "estimate_snr_db",
-    "pointing_loss",
+    "lognormal_turbulence_gain",
+    "pointing_error_gain",
+    "shot_noise",
+    "thermal_noise",
 ]

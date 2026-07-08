@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "openuwoc-ai"
 version = "0.1.0"
-description = "Research framework for AI-assisted Underwater Wireless Optical Communications."
+description = "Research framework for AI-assisted Underwater Optical Wireless Communications."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -21,7 +21,7 @@ keywords = [
   "marine robotics"
 ]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
@@ -35,7 +35,8 @@ dependencies = [
   "scipy>=1.12",
   "pandas>=2.2",
   "matplotlib>=3.8",
-  "pyyaml>=6.0"
+  "pyyaml>=6.0",
+  "pillow>=10.0"
 ]
 
 [project.optional-dependencies]
@@ -52,7 +53,7 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = [".", "src"]
+where = ["."]
 include = ["openuwoc_ai*"]
 
 [tool.black]
@@ -60,7 +61,7 @@ line-length = 100
 
 [tool.ruff]
 line-length = 100
-src = ["openuwoc_ai", "src", "tests"]
+src = ["openuwoc_ai", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

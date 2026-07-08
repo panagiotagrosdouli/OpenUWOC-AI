@@ -1,78 +1,160 @@
 # OpenUWOC-AI
 
-OpenUWOC-AI is an open-source research framework for Artificial Intelligence-powered Underwater Wireless Optical Communications (UWOC).
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
+[![Tests](https://img.shields.io/badge/tests-pytest-informational)](tests/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-simulation--only-orange)](docs/REPRODUCIBILITY.md)
 
-The project aims to provide researchers, students, and engineers with a modular, extensible, and reproducible platform for developing, simulating, and evaluating next-generation UWOC systems.
+**OpenUWOC-AI is a research-grade, simulation-first framework for studying how AI can improve the robustness, reliability, and adaptability of underwater optical wireless communication (UWOC).**
 
-## Vision
+> Central research question: **How can AI improve UWOC under absorption, scattering, turbulence, misalignment, and noise?**
 
-OpenUWOC-AI is designed to support high-quality academic research and future publications in IEEE journals and conferences. It focuses on the intersection of underwater optical wireless communications, artificial intelligence, digital twins, and intelligent network optimization.
+This repository is designed to look and behave like software accompanying a serious IEEE OCEANS / ICC / Globecom / IEEE Access / ICRA / IROS / RA-L research project, while remaining scientifically honest: no fabricated results, no unverified state-of-the-art claims, and clear separation between implemented, prototype, and planned work.
 
-## Core Capabilities
+## Motivation
 
-- Underwater optical wireless channel simulation
-- Configurable underwater environment models
-- AI-ready APIs for learning-based communication optimization
-- Digital twin abstractions for UWOC systems
-- Optimization modules for beam alignment, power control, routing, and resource allocation
-- Reproducible experiments with configuration files and logging
-- Visualization utilities for research-grade figures
+UWOC can support high-rate short-range links for marine robotics, autonomous underwater vehicles, diver systems, and underwater sensor networks. The physical channel is challenging because seawater causes wavelength-dependent absorption, scattering, turbulence-induced irradiance fluctuation, pointing loss from platform motion, ambient light noise, shot noise, and receiver thermal noise.
 
-## Initial Research Directions
+AI may help when the channel is nonlinear, time-varying, partially observed, or difficult to model analytically. However, AI receivers must be compared against classical baselines and evaluated under reproducible assumptions.
 
-- AI-driven UWOC channel modeling and prediction
-- Generative AI for synthetic underwater channel datasets
-- Reinforcement learning for adaptive modulation and power control
-- Graph neural networks for underwater network optimization
-- Digital twin-assisted link adaptation and transfer learning
-- Energy-efficient and secure UWOC system design
-
-## Project Structure
+## System architecture
 
 ```text
-OpenUWOC-AI/
-├── docs/                  # Architecture, roadmap, and research notes
-├── examples/              # Runnable examples
-├── experiments/           # Reproducible experiment configurations
-├── notebooks/             # Exploratory research notebooks
-├── src/openuwoc_ai/       # Main Python package
-├── tests/                 # Unit tests
-├── pyproject.toml         # Python packaging and tool configuration
-└── README.md
+bits -> modulation -> optical channel -> receiver -> metrics
+                         |              |
+                         |              +-> neural equalizer / BER predictor prototypes
+                         +-> absorption + scattering + turbulence + pointing + noise
 ```
 
-## Quick Start
+## UWOC channel model
+
+The baseline channel uses intensity modulation/direct detection:
+
+```math
+y_k = h_k P_t[k] + P_{amb} + n_{shot,k} + n_{th,k}
+```
+
+with
+
+```math
+h_k = \exp[-(a(\lambda)+b(\lambda))d] h_p(k) h_t(k).
+```
+
+See [`docs/MATHEMATICAL_FORMULATION.md`](docs/MATHEMATICAL_FORMULATION.md) for notation, assumptions, and limitations.
+
+## AI receiver pipeline
+
+```text
+received samples -> feature/window extraction -> neural equalizer -> bit probabilities
+                                  |               |
+                                  |               +-> thresholded decisions
+                                  +-> BER predictor / adaptive policy state
+```
+
+The AI components are currently **prototypes**. They are implemented to enable reproducible experiments, not to claim superiority.
+
+## Installation
 
 ```bash
 git clone https://github.com/panagiotagrosdouli/OpenUWOC-AI.git
 cd OpenUWOC-AI
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -e .[dev]
-pytest
 ```
 
-## Minimal Example
+For PyTorch prototypes:
+
+```bash
+pip install -e .[ai]
+```
+
+## Quick start
 
 ```python
-from openuwoc_ai.channels import UnderwaterOpticalChannel
-from openuwoc_ai.environments import WaterEnvironment
+from openuwoc_ai.channel.models import ChannelConfig, UnderwaterOpticalChannel, WaterType
+from openuwoc_ai.modulation.ook import bits_to_ook, random_bits, threshold_detect
+from openuwoc_ai.evaluation.metrics import bit_error_rate
 
-water = WaterEnvironment.preset("coastal")
-channel = UnderwaterOpticalChannel(environment=water)
-
-result = channel.link_budget(distance_m=20.0, transmit_power_w=1.0)
-print(result.received_power_w)
+bits = random_bits(1000, seed=7)
+tx = bits_to_ook(bits, optical_power_w=1.0)
+channel = UnderwaterOpticalChannel(ChannelConfig(water_type=WaterType.COASTAL, distance_m=10.0))
+rx = channel.propagate(tx)
+estimated = threshold_detect(rx)
+print(bit_error_rate(bits, estimated))
 ```
 
-## Status
+## Run a reproducible experiment
 
-This repository is at the initial framework-design stage. The first milestone is to implement a validated baseline UWOC channel model, environment presets, reproducible experiments, and basic AI-ready interfaces.
+```bash
+python scripts/run_experiment.py configs/coastal_ook_baseline.yaml --output results/coastal_ook_baseline.csv
+```
+
+## Generate the demo GIF
+
+```bash
+python scripts/make_demo_gif.py
+```
+
+Outputs:
+
+- `assets/demo.gif`
+- `results/videos/demo.mp4` when ffmpeg is available
+
+The animation is generated from code and is illustrative, not measured experimental evidence.
+
+## Implemented / Prototype / Planned
+
+| Area | Status | Notes |
+|---|---:|---|
+| Beer-Lambert attenuation | Implemented | Uses `c=a+b` water profiles |
+| Water profiles | Implemented | Clear ocean, coastal, turbid harbor simulation presets |
+| Pointing error | Implemented | Gaussian pointing-loss scaffold |
+| Turbulence | Prototype | Unit-mean lognormal scaffold |
+| Thermal / shot noise | Implemented | Gaussian thermal noise and shot-noise approximation |
+| OOK modulation | Implemented | Symbol mapping and threshold detector |
+| BER/SER/SNR metrics | Implemented | Includes Wilson confidence intervals |
+| YAML experiments | Implemented | Deterministic seeds |
+| Neural equalizer | Prototype | Small PyTorch MLP |
+| BER predictor | Prototype | Small PyTorch MLP |
+| BPSK/QPSK/M-QAM/OFDM | Planned | API to be added |
+| Matched filter / linear equalizer | Planned | Required classical baselines |
+| Real experimental data | Planned | No real dataset currently committed |
+| Adaptive modulation policy | Planned | Current demo uses a rule-based proxy only |
+
+## Metrics
+
+- Bit error rate (BER)
+- Symbol error rate (SER)
+- Approximate SNR
+- Wilson confidence interval
+- Robustness under water type, distance, noise, turbidity, and pointing perturbations
+
+## Limitations
+
+- Current results are simulation-only.
+- Water coefficients are presets and must be calibrated before physical claims.
+- Turbulence and multipath models are scaffolds.
+- Neural models are prototypes and are not benchmarked against all classical baselines yet.
+- No state-of-the-art claim is made.
+
+## Roadmap
+
+See [`docs/ROADMAP.md`](docs/ROADMAP.md).
+
+## Future MSc/PhD extensions
+
+- Tank-based UWOC dataset acquisition and calibration.
+- Robust neural equalization across unseen water types.
+- Joint channel estimation and adaptive modulation.
+- Physics-informed neural receivers.
+- AUV/ROV optical link adaptation under motion-induced pointing error.
+- Sim-to-real transfer for underwater communication links.
 
 ## Citation
 
-If you use this project in academic work, please cite the repository. A formal `CITATION.cff` file will be maintained as the project matures.
+See [`CITATION.cff`](CITATION.cff). Until a paper is published, cite this repository as simulation software and avoid implying peer-reviewed experimental validation.
 
 ## License
 
-This project is released under the MIT License.
+MIT License. See [`LICENSE`](LICENSE).

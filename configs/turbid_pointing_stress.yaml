@@ -1,0 +1,12 @@
+# Stress-test scenario for robustness analysis under turbidity and misalignment.
+n_bits: 20000
+water_type: turbid_harbor
+distance_m: 5.0
+tx_power_w: 1.0
+thermal_noise_std: 0.05
+shot_noise_scale: 0.0
+ambient_light_w: 0.0
+pointing_offset_m: 0.01
+beam_waist_m: 0.05
+turbulence_sigma: 0.1
+seed: 11
