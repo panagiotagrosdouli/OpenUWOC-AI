@@ -1,0 +1,12 @@
+# Simulation-only OOK UWOC baseline. Do not report as experimental validation.
+n_bits: 10000
+water_type: coastal
+distance_m: 10.0
+tx_power_w: 1.0
+thermal_noise_std: 0.02
+shot_noise_scale: 0.0
+ambient_light_w: 0.0
+pointing_offset_m: 0.0
+beam_waist_m: 0.05
+turbulence_sigma: 0.0
+seed: 7
