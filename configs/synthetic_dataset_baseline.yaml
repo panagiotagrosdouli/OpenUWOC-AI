@@ -1,0 +1,19 @@
+# Deterministic synthetic channel-state dataset for AI receiver prototyping.
+# Outputs are simulation labels, not measured underwater communication results.
+n_samples: 256
+n_bits: 4096
+seed: 42
+water_types:
+  - clear_ocean
+  - coastal
+  - turbid_harbor
+distance_min_m: 2.0
+distance_max_m: 60.0
+tx_power_min_w: 0.2
+tx_power_max_w: 2.0
+wavelength_min_nm: 450.0
+wavelength_max_nm: 550.0
+thermal_noise_min: 0.005
+thermal_noise_max: 0.08
+pointing_offset_max_m: 0.05
+turbulence_sigma_max: 0.25
