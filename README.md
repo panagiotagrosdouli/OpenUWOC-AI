@@ -24,6 +24,9 @@ bits -> modulation -> optical channel -> receiver -> metrics
                          |              |
                          |              +-> neural equalizer / BER predictor prototypes
                          +-> absorption + scattering + turbulence + pointing + noise
+
+simulator states + observed states -> Digital Twin -> calibration residuals / AI hooks
+sampled scenarios -> synthetic dataset generator -> CSV + metadata -> AI training pipeline
 ```
 
 ## UWOC channel model
@@ -90,6 +93,21 @@ print(bit_error_rate(bits, estimated))
 python scripts/run_experiment.py configs/coastal_ook_baseline.yaml --output results/coastal_ook_baseline.csv
 ```
 
+## Generate an AI-ready synthetic dataset
+
+```bash
+python scripts/generate_synthetic_dataset.py \
+  configs/synthetic_dataset_baseline.yaml \
+  --csv results/datasets/synthetic_channel_states.csv \
+  --metadata results/datasets/synthetic_channel_states.metadata.json
+```
+
+The dataset generator samples water type, distance, transmit power, wavelength, pointing offset, turbulence, and noise, then records simulator-derived BER/SNR labels. See [`docs/SYNTHETIC_DATASETS.md`](docs/SYNTHETIC_DATASETS.md).
+
+## Digital Twin workflow
+
+The Digital Twin layer stores UWOC state variables, synchronizes simulated and observed states, computes calibration residuals, and exposes predictive hooks for future AI models. See [`docs/DIGITAL_TWIN.md`](docs/DIGITAL_TWIN.md).
+
 ## Generate the demo GIF
 
 ```bash
@@ -115,6 +133,8 @@ The animation is generated from code and is illustrative, not measured experimen
 | OOK modulation | Implemented | Symbol mapping and threshold detector |
 | BER/SER/SNR metrics | Implemented | Includes Wilson confidence intervals |
 | YAML experiments | Implemented | Deterministic seeds |
+| Synthetic dataset generator | Implemented | Writes CSV plus metadata JSON for AI prototyping |
+| Digital Twin state/synchronization | Implemented | State model, residuals, hooks, transfer spec |
 | Neural equalizer | Prototype | Small PyTorch MLP |
 | BER predictor | Prototype | Small PyTorch MLP |
 | BPSK/QPSK/M-QAM/OFDM | Planned | API to be added |
@@ -129,6 +149,8 @@ The animation is generated from code and is illustrative, not measured experimen
 - Approximate SNR
 - Wilson confidence interval
 - Robustness under water type, distance, noise, turbidity, and pointing perturbations
+- Synthetic dataset schema reproducibility
+- Digital Twin residuals between simulated and observed states
 
 ## Limitations
 
@@ -136,6 +158,8 @@ The animation is generated from code and is illustrative, not measured experimen
 - Water coefficients are presets and must be calibrated before physical claims.
 - Turbulence and multipath models are scaffolds.
 - Neural models are prototypes and are not benchmarked against all classical baselines yet.
+- The synthetic dataset generator produces simulator labels, not measured underwater data.
+- The Digital Twin layer is an abstraction for calibration workflows, not a validated deployment system.
 - No state-of-the-art claim is made.
 
 ## Roadmap
