@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="780" viewBox="0 0 1600 780" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUWOC-AI research pipeline</title>
+  <desc id="desc">Conceptual pipeline from information bits through modulation, underwater optical propagation, classical and neural receivers, and link evaluation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071525"/><stop offset="1" stop-color="#0b2f44"/></linearGradient>
+    <linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0ea5e9" stop-opacity=".28"/><stop offset="1" stop-color="#14b8a6" stop-opacity=".08"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".28"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="#7dd3fc"/></marker>
+    <style>
+      .title{font:700 44px Inter,Segoe UI,Arial,sans-serif;fill:#f8fafc}.sub{font:400 20px Inter,Segoe UI,Arial,sans-serif;fill:#bae6fd}.box{fill:#0f2438;stroke:#38bdf8;stroke-width:2;rx:24}.boxt{font:700 23px Inter,Segoe UI,Arial,sans-serif;fill:#f8fafc}.small{font:400 17px Inter,Segoe UI,Arial,sans-serif;fill:#cbd5e1}.label{font:700 15px Inter,Segoe UI,Arial,sans-serif;fill:#67e8f9;letter-spacing:1.4px}.arrow{stroke:#7dd3fc;stroke-width:4;fill:none;marker-end:url(#arrow)}.note{font:400 16px Inter,Segoe UI,Arial,sans-serif;fill:#94a3b8}.pill{fill:#12344a;stroke:#2dd4bf;stroke-width:1.5;rx:16}.pillt{font:600 16px Inter,Segoe UI,Arial,sans-serif;fill:#ccfbf1}
+    </style>
+  </defs>
+  <rect width="1600" height="780" fill="url(#bg)"/>
+  <path d="M0 585 Q180 530 340 585 T690 585 T1040 585 T1390 585 T1600 585 V780 H0Z" fill="url(#ocean)"/>
+  <text x="800" y="72" text-anchor="middle" class="title">OpenUWOC-AI</text>
+  <text x="800" y="108" text-anchor="middle" class="sub">Simulation-first AI for robust underwater optical wireless communication</text>
+
+  <g filter="url(#shadow)">
+    <rect class="box" x="70" y="205" width="250" height="220"/>
+    <text x="95" y="240" class="label">01 · SOURCE & MODULATION</text>
+    <text x="95" y="285" class="boxt">Information Bits</text>
+    <text x="95" y="320" class="small">Deterministic bit generation</text>
+    <text x="95" y="350" class="small">OOK optical modulation</text>
+    <rect class="pill" x="95" y="376" width="170" height="34"/><text x="180" y="399" text-anchor="middle" class="pillt">Optical waveform</text>
+
+    <rect class="box" x="390" y="160" width="330" height="310"/>
+    <text x="420" y="198" class="label">02 · UNDERWATER CHANNEL</text>
+    <text x="420" y="243" class="boxt">Physics-based Propagation</text>
+    <text x="420" y="280" class="small">Absorption + scattering</text>
+    <text x="420" y="312" class="small">Turbulence fading</text>
+    <text x="420" y="344" class="small">Pointing / alignment loss</text>
+    <text x="420" y="376" class="small">Ambient, shot, thermal noise</text>
+    <rect class="pill" x="420" y="404" width="250" height="36"/><text x="545" y="428" text-anchor="middle" class="pillt">Received optical samples</text>
+
+    <rect class="box" x="790" y="170" width="310" height="285"/>
+    <text x="820" y="208" class="label">03 · RECEIVER COMPARISON</text>
+    <text x="820" y="253" class="boxt">Classical + AI Receivers</text>
+    <text x="820" y="292" class="small">Threshold detector baseline</text>
+    <text x="820" y="324" class="small">Neural equalizer prototype</text>
+    <text x="820" y="356" class="small">BER / quality predictor</text>
+    <rect class="pill" x="820" y="385" width="220" height="36"/><text x="930" y="409" text-anchor="middle" class="pillt">Bit decisions</text>
+
+    <rect class="box" x="1170" y="205" width="350" height="220"/>
+    <text x="1200" y="243" class="label">04 · EVALUATION & ADAPTATION</text>
+    <text x="1200" y="288" class="boxt">Link Evidence</text>
+    <text x="1200" y="325" class="small">BER · SER · approximate SNR</text>
+    <text x="1200" y="357" class="small">Wilson confidence intervals</text>
+    <text x="1200" y="389" class="small">Adaptive-policy research state</text>
+  </g>
+
+  <path class="arrow" d="M320 315 H382"/><path class="arrow" d="M720 315 H782"/><path class="arrow" d="M1100 315 H1162"/>
+
+  <g>
+    <rect x="210" y="535" width="1180" height="100" rx="22" fill="#0b2032" stroke="#164e63" stroke-width="2"/>
+    <text x="800" y="574" text-anchor="middle" class="boxt">Research objective</text>
+    <text x="800" y="608" text-anchor="middle" class="small">Compare transparent physical and classical baselines with data-driven receivers under controlled water, distance, noise, turbulence and misalignment conditions.</text>
+  </g>
+
+  <text x="800" y="706" text-anchor="middle" class="note">Conceptual overview — simulation architecture, not tank, sea-trial, hardware-in-the-loop, or deployment evidence.</text>
+  <text x="800" y="736" text-anchor="middle" class="note">AI performance claims require identical channel seeds, classical baselines, repeated trials and traceable configurations.</text>
+</svg>
