@@ -65,6 +65,9 @@ src = ["openuwoc_ai", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+ignore = [
+  "E501",  # Line wrapping is handled by Black.
+]
 
 [tool.mypy]
 python_version = "3.10"
